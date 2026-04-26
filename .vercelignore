@@ -1,0 +1,12 @@
+data/
+node_modules/
+.env
+scripts/
+SECURITY_AUDIT_REPORT.md
+extracted_houses.json
+*.pdf
+*.xls
+# Only exclude images in root, not in public/
+/*.jpg
+/*.png
+/*.jpeg
