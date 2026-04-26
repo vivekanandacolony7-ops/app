@@ -51,33 +51,32 @@ app.use(express.static(path.join(__dirname, 'public'), {
 }));
 
 // DB Connection
-const db = process.env.MONGO_URI || 'mongodb://localhost:27017/vivekananda_colony';
+const db = process.env.MONGO_URI;
+
+if (!db && process.env.NODE_ENV === 'production') {
+  console.error('CRITICAL: MONGO_URI is not defined in environment variables!');
+}
 
 const connectDB = async () => {
+  if (mongoose.connection.readyState >= 1) return;
+
   try {
-    await mongoose.connect(db, {
-      serverSelectionTimeoutMS: 10000, // Increase timeout to 10s for serverless cold starts
+    await mongoose.connect(db || 'mongodb://localhost:27017/vivekananda_colony', {
+      serverSelectionTimeoutMS: 10000,
       connectTimeoutMS: 10000,
+      bufferCommands: false, // Disable buffering to see real errors immediately
     });
     console.log('MongoDB Connected');
-    
-    try {
-      await mongoose.connection.db.collection('expenses').dropIndex('voucherNumber_1');
-      console.log('Dropped unique index voucherNumber_1 on expenses (if it existed)');
-    } catch (err) {}
-    
-    try {
-      await mongoose.connection.db.collection('collections').dropIndex('receiptNumber_1');
-      console.log('Dropped unique index receiptNumber_1 on collections (if it existed)');
-    } catch (err) {}
   } catch (err) {
     console.error(`MongoDB Connection Error: ${err.message}`);
-    // Exit process with failure
-    // process.exit(1); 
   }
 };
 
-connectDB();
+// Middleware to ensure DB is connected before processing any request
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
