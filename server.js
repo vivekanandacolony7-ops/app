@@ -56,7 +56,8 @@ const db = process.env.MONGO_URI || 'mongodb://localhost:27017/vivekananda_colon
 const connectDB = async () => {
   try {
     await mongoose.connect(db, {
-      serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
+      serverSelectionTimeoutMS: 10000, // Increase timeout to 10s for serverless cold starts
+      connectTimeoutMS: 10000,
     });
     console.log('MongoDB Connected');
     
