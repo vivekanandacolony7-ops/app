@@ -1240,7 +1240,7 @@ window.generateCollectionReceipt = async (idOrData) => {
             doc.setFontSize(14);
             doc.text('HOUSE BUILDING SOCIETY LTD., BAPATLA', 105, startY + 23, { align: 'center' });
             doc.setFontSize(10);
-            doc.text('(Regd. No. AMC/GNT/DCO/2012/4818)', 105, startY + 28, { align: 'center' });
+            doc.text('(Regd. No. 2178)', 105, startY + 28, { align: 'center' });
 
             // Title
             doc.setFontSize(14);
@@ -2537,7 +2537,7 @@ window.generateVoucherPDF = (expenseOrArray) => {
             doc.text('HOUSE BUILDING SOCIETY LTD., BAPATLA', pageWidth / 2, startY + 18, { align: 'center' });
             doc.setFontSize(9);
             doc.setFont('helvetica', 'normal');
-            doc.text('(Regd. No. AMC/GNT/DCO/2012/4818)', pageWidth / 2, startY + 23, { align: 'center' });
+            doc.text('(Regd. No. 2178)', pageWidth / 2, startY + 23, { align: 'center' });
 
             // Horizontal Line under Header
             doc.setLineWidth(0.8);
